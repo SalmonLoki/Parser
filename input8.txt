@@ -1,0 +1,1 @@
+procedure fib(n1: double; var n2, n3:word);

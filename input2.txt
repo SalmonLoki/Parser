@@ -1,0 +1,2 @@
+
+function fib(n1: double; n2:word): integer;

@@ -1,0 +1,130 @@
+//Старая грамматика:
+S -> FUNCTION | PROCEDURE;
+FUNCTION -> function NAME_FUNCTION: TYPE
+PROCEDURE -> procedure NAME_FUNCTION
+NAME_FUNCTION -> NAME (ARGS) | NAME ()
+ARGS -> ARGS; VAR | VAR
+VAR -> NAMES : TYPE | KW NAMES : TYPE
+KW -> var
+NAMES -> NAMES, NAME | NAME
+NAME -> (a-z)+
+TYPE -> INT | BYTE | WORD | SHORT_INT | LOGIN_INT | REAL | SINGL | DOUBLE | EXTENDED | BOOLEAN | CHAR
+INT -> int
+BYTE -> byte
+WORD -> word
+SHORT_INT -> shortint
+LONG_INT -> longint
+REAL -> real
+SINGLE -> single
+DOUBLE -> double
+EXTENDED -> extended
+BOOLEAN -> boolean
+CHAR -> char
+
+//Новая грамматика:
+//S - декларация функции или процедуры в паскале
+S -> FUNCTION;
+S -> PROCEDURE;
+
+//FUNCTION - декларация функции
+FUNCTION -> function NAME_FUNCTION: TYPE
+
+//PROCEDURE - декларация процедуры
+PROCEDURE -> procedure NAME_FUNCTION
+
+//name of function with args
+NAME_FUNCTION -> NAME (ARGS)
+NAME_FUNCTION -> NAME ()
+
+// ARGS - декларация не пустого количества аргументов
+ARGS -> VAR ARGS'
+
+//ARGS' - декларация продолжения аргументов
+ARGS' -> ; ARGS
+ARGS' -> e
+
+//VAR - декларация аргумента
+VAR -> NAMES : TYPE | KW NAMES : TYPE
+
+//NAMES - декларация не пустого количества имен
+NAMES -> NAME NAMES'
+
+//NAMES' - декларация продолжения имен
+NAMES' -> , NAMES
+NAMES' -> e
+
+//NAME - декларация имени функции/аргумента
+NAME -> (a-z)+
+
+//TYPE - декларация типа
+TYPE -> INT
+TYPE -> BYTE
+TYPE -> WORD
+TYPE -> SHORT_INT
+TYPE -> LOGIN_INT
+TYPE -> REAL
+TYPE -> SINGLE
+TYPE -> DOUBLE
+TYPE -> EXTENDED
+TYPE -> BOOLEAN
+TYPE -> CHAR
+
+INT -> int
+BYTE -> byte
+WORD -> word
+SHORT_INT -> shortint
+LONG_INT -> longint
+REAL -> real
+SINGLE -> single
+DOUBLE -> double
+EXTENDED -> extended
+BOOLEAN -> boolean
+CHAR -> char
+
+-------------------------------------
+терминал        токен
+-------------------------------------
+int,...         TYPE
+-------------------------------------
+(a-z)+          NAME
+-------------------------------------
+$               END
+-------------------------------------
+function        FUNCTION
+-------------------------------------
+procedure       PROCEDURE
+-------------------------------------
+,               COMMA
+-------------------------------------
+;               FINISH
+-------------------------------------
+(               OPEN
+-------------------------------------
+)               CLOSE
+-------------------------------------
+:               COLON
+-------------------------------------
+var             KW
+-------------------------------------
+
+
+
+-------------------------------------
+нетерминал      FIRST           FOLLOW
+-------------------------------------
+S               function        $
+                procedure
+-------------------------------------
+FUNCTION        function        ;
+-------------------------------------
+PROCEDURE       procedure       ;
+-------------------------------------
+NAME_FUNCTION   name            ;
+                                :
+-------------------------------------
+ARGS            name            )
+-------------------------------------
+ARGS'           , e             )
+-------------------------------------
+VAR             name            )
+-------------------------------------
